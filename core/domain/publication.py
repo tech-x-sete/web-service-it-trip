@@ -13,11 +13,10 @@ class Publication:
     writer_id: Optional[int] = None
     organization: Optional['Organization'] = None  # Мейби тут что-то
     publish_date: datetime = datetime.now()
-    event_start_date: Optional[datetime] = None
-    event_end_date: Optional[datetime] = None
+    event_date: Optional[datetime] = None
     is_archived: bool = False
     created_at: datetime = datetime.now()
-    updated_at: datetime = datetime.now()
+    location: str = ""
     tags: List['Tag'] = None  # Связь с тегами через композицию
 
     def to_dict(self) -> Dict[str, Any]:
@@ -29,12 +28,10 @@ class Publication:
             "writer_id": self.writer_id,
             "organization": self.organization,
             "publish_date": self.publish_date.isoformat() if self.publish_date else None,
-            "event_start_date": self.event_start_date.isoformat() if self.event_start_date else None,
-            "event_end_date": self.event_end_date.isoformat() if self.event_end_date else None,
+            "event_date": self.event_date.isoformat() if self.event_date else None,
             "is_archived": self.is_archived,
             "created_at": self.created_at.isoformat() if self.created_at else None,
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
-            "tags": [tag.to_dict() for tag in self.tags] if self.tags else []
+            "location": self.location
         }
 
     def to_json(self) -> str:

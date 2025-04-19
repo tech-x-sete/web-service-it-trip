@@ -157,11 +157,11 @@ class Publication(Base):
     writer_id = Column(Integer, ForeignKey('users.id'))
     organization_id = Column(Integer, ForeignKey('organizations.id'))
     publish_date = Column(DateTime, nullable=False)
-    event_start_date = Column(DateTime)
-    event_end_date = Column(DateTime)
+    event_date = Column(DateTime)
     is_archived = Column(Boolean, default=False)
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
+    location = Column(Text)
 
     writer = relationship("User", back_populates="publications")
     organization = relationship("Organization", back_populates="publications")
@@ -177,12 +177,10 @@ class Publication(Base):
             writer_id=self.writer_id,
             organization=self.organization,
             publish_date=self.publish_date,
-            event_start_date=self.event_start_date,
-            event_end_date=self.event_end_date,
+            event_date=self.event_date,
             is_archived=self.is_archived,
             created_at=self.created_at,
-            updated_at=self.updated_at,
-            tags=self.tags
+            location=self.location,
         )
 
 

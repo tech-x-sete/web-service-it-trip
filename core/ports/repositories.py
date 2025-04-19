@@ -76,10 +76,10 @@ class PublicationRepositoryPort(ABC):
             content: str,
             writer_id: int,
             organization_id: int,
+            location: str,
             publish_date: datetime,
             featured_image_url: Optional[str] = None,
-            event_start_date: Optional[datetime] = None,
-            event_end_date: Optional[datetime] = None,
+            event_date: Optional[datetime] = None,
             is_archived: bool = False,
             tags: Optional[List[str]] = None
     ) -> Optional[Publication]: ...

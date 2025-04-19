@@ -12,6 +12,7 @@ from infrastructure.db.models import (
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 from sqlalchemy.orm import selectinload
+from core import domain
 
 from infrastructure.db.repositories.organization_repository import OrganizationRepository
 
@@ -25,11 +26,11 @@ class PublicationRepository(PublicationRepositoryPort):
             title: str,
             content: str,
             writer_id: int,
+            location: str,
             organization_id: int,  # Возможно здесь что-то
             publish_date: datetime,
             featured_image_url: Optional[str] = None,
-            event_start_date: Optional[datetime] = None,
-            event_end_date: Optional[datetime] = None,
+            event_date: Optional[datetime] = None,
             is_archived: bool = False,
             tags: Optional[List[str]] = None
     ) -> Optional[Publication]:
@@ -45,8 +46,7 @@ class PublicationRepository(PublicationRepositoryPort):
                 organization=organization,
                 publish_date=publish_date,
                 featured_image_url=featured_image_url,
-                event_start_date=event_start_date,
-                event_end_date=event_end_date,
+                event_date=event_date,
                 is_archived=is_archived
             )
 
@@ -78,7 +78,9 @@ class PublicationRepository(PublicationRepositoryPort):
             )
         )
         pubs = result.scalars().all()
-        return [await self._to_domain(pub) for pub in pubs]
+        res = [await self._to_domain(pub) for pub in pubs]
+
+        return res
 
     async def get_publications_by_organization(self, org_id: int) -> List[Publication]:
         result = await self._session.execute(
@@ -138,9 +140,21 @@ class PublicationRepository(PublicationRepositoryPort):
         return True
 
     async def _to_domain(self, pub) -> 'Publication':
-        from infrastructure.converters import publication_to_domain
-        result = await publication_to_domain(pub)
-        return result
+        return domain.Publication(
+            id=pub.id,
+            title=pub.title,
+            content=pub.content,
+            featured_image_url=pub.featured_image_url,
+            writer_id=pub.writer_id,
+            organization=pub.organization,
+            publish_date=pub.publish_date,
+            event_date=pub.event_date,
+            is_archived=pub.is_archived,
+            created_at=pub.created_at,
+            updated_at=pub.updated_at,
+            location=pub.location,
+            tags=pub.tags
+        )
 
     # def _to_domain(self, pub: PublicationModel) -> Publication:
     #     # from user_repository import UserRepository

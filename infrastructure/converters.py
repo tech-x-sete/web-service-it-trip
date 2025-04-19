@@ -6,7 +6,7 @@ from infrastructure.db.repositories.organization_repository import OrganizationR
 async def publication_to_domain(pub) -> Publication:
     async with async_session() as session:
         repo = OrganizationRepository(session)
-        organization = repo.get_organization_by_id(pub.organization_id)
+        organization = await repo.get_organization_by_id(pub.organization_id)
         return Publication(
             id=pub.id,
             title=pub.title,
@@ -15,12 +15,10 @@ async def publication_to_domain(pub) -> Publication:
             writer_id=pub.writer_id,
             organization=organization,
             publish_date=pub.publish_date,
-            event_start_date=pub.event_start_date,
-            event_end_date=pub.event_end_date,
+            event_date=pub.event_date,
             is_archived=pub.is_archived,
             created_at=pub.created_at,
-            updated_at=pub.updated_at,
-            tags=[tag_to_domain_simple(t) for t in pub.tags] if hasattr(pub, 'tags') else []
+            location=pub.location,
         )
 
 
