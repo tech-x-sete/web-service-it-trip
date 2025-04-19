@@ -1,0 +1,57 @@
+:root {
+    --main-font: sans-serif;
+    --bg-color: #fff;
+    --text-color: #000;
+    --primary-color: #4a7bff;
+    --primary-color-hover: #3a64cc;
+    --container-max-width: 400px;
+    --button-border-radius: 10px;
+}
+
+body {
+    font-family: var(--main-font);
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.container {
+    width: 90%;
+    max-width: var(--container-max-width);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.illustration {
+    max-width: 70%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.prompt {
+    font-size: 1.2em;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.login-button {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 15px;
+    border: none;
+    border-radius: var(--button-border-radius);
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.login-button:hover {
+    background-color: var(--primary-color-hover);
+}

@@ -1,0 +1,99 @@
+:root {
+    --main-font: Arial, sans-serif;
+    --bg-color: #fff;
+    --text-color: #333;
+    --primary-color: #4a7bff;
+    --primary-color-hover: #3a64cc;
+    --secondary-bg-color: #EFEFEF;
+    --light-text-color: #777;
+    --border-radius: 5px;
+}
+
+body {
+    font-family: var(--main-font);
+    margin: 0 auto;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+.organization-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.organization-card {
+    background-color: var(--secondary-bg-color);
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.organization-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.organization-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.delete-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--light-text-color);
+}
+
+.add-organization-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.delete-button:hover,
+.add-organization-button:hover {
+    background-color: var(--primary-color-hover);
+}
