@@ -11,9 +11,9 @@ async def get_publications():
         repo = PublicationRepository(session)
         data = await repo.get_all_publications()
         if data:
-            return "Test"
+            return [elem.to_dict() for elem in data]
         # render_template('templates/', data=data)
-        return data
+        return []
 
 
 @publications_bp.route('/{publication_id}', methods=['GET'])
