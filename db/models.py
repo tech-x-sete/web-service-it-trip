@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sess
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 import enum
+import domain
 
 engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')  # Создание бд
 
@@ -116,6 +117,12 @@ class Publication(Base):
     writer = relationship("User", back_populates="publications")
     organization = relationship("Organization", back_populates="publications")
     tags = relationship("Tag", secondary=publication_tags, back_populates="publications")
+
+    @staticmethod
+    def to_domain(self) -> domain.Publication:
+        return domain.Publication(
+            ...
+        )
 
 
 class TelegramSubscriber(Base):

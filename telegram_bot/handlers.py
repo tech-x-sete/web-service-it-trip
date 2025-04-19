@@ -1,6 +1,8 @@
 from aiogram import Router, F
 from aiogram.filters import Command
 from aiogram.types import Message, CallbackQuery
+from flask import request
+
 from keyboards import get_list_button_keyboard
 from db.requests import get_all_publications
 from domain import Publication
@@ -21,5 +23,5 @@ async def echo(message: Message):
 
 @router.callback_query(F.data == "get_events")
 async def get_events(callback: CallbackQuery):
-
-    await callback.message.answer("HELo")
+    publications = await get_all_publications()
+    await callback.message.answer("\n".join([elem.title for elem in publications]))
