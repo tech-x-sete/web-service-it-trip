@@ -26,7 +26,14 @@ async def get_events(callback: CallbackQuery):
         repo = PublicationRepository(session)
         publications = await repo.get_all_publications()
 
-        if not publications:
-            publications = ['There are no publications']
+        # Преобразуем в строки внутри контекста сессии
+        publications_list = [
+            f"{pub.title} (опубликовано: {pub.publish_date})"
+            for pub in publications
+        ]
 
-    await callback.message.answer("\n".join(publications))
+        if not publications_list:
+            await callback.message.answer("Нет мероприятий")
+            return
+
+        await callback.message.answer("\n".join(publications_list))

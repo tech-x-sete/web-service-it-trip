@@ -11,6 +11,7 @@ from infrastructure.db.models import (
 )
 from typing import Optional, List, Dict, Any
 from datetime import datetime
+from sqlalchemy.orm import selectinload
 
 
 class PublicationRepository(PublicationRepositoryPort):
@@ -63,8 +64,15 @@ class PublicationRepository(PublicationRepositoryPort):
         return self._to_domain(pub) if pub else None
 
     async def get_all_publications(self) -> List[Publication]:
-        result = await self._session.execute(select(PublicationModel))
-        return [self._to_domain(pub) for pub in result.scalars()]
+        result = await self._session.execute(
+            select(PublicationModel).options(
+                selectinload(PublicationModel.tags),
+                selectinload(PublicationModel.writer),
+                selectinload(PublicationModel.organization)
+            )
+        )
+        pubs = result.scalars().all()
+        return [self._to_domain(pub) for pub in pubs]
 
     async def get_publications_by_organization(self, org_id: int) -> List[Publication]:
         result = await self._session.execute(
@@ -123,23 +131,27 @@ class PublicationRepository(PublicationRepositoryPort):
         await self._session.commit()
         return True
 
-    def _to_domain(self, pub: PublicationModel) -> Publication:
-        from user_repository import UserRepository
-        from organization_repository import OrganizationRepository
-        from tag_repository import TagRepository
+    def _to_domain(self, pub) -> 'Publication':
+        from infrastructure.converters import publication_to_domain
+        return publication_to_domain(pub)
 
-        return Publication(
-            id=pub.id,
-            title=pub.title,
-            content=pub.content,
-            featured_image_url=pub.featured_image_url,
-            writer_id=pub.writer_id,
-            organization_id=pub.organization_id,
-            publish_date=pub.publish_date,
-            event_start_date=pub.event_start_date,
-            event_end_date=pub.event_end_date,
-            is_archived=pub.is_archived,
-            created_at=pub.created_at,
-            updated_at=pub.updated_at,
-            tags=[TagRepository._to_domain(None, t) for t in pub.tags] if pub.tags else []
-        )
+    # def _to_domain(self, pub: PublicationModel) -> Publication:
+    #     # from user_repository import UserRepository
+    #     # from organization_repository import OrganizationRepository
+    #     from .tag_repository import TagRepository
+    #
+    #     return Publication(
+    #         id=pub.id,
+    #         title=pub.title,
+    #         content=pub.content,
+    #         featured_image_url=pub.featured_image_url,
+    #         writer_id=pub.writer_id,
+    #         organization_id=pub.organization_id,
+    #         publish_date=pub.publish_date,
+    #         event_start_date=pub.event_start_date,
+    #         event_end_date=pub.event_end_date,
+    #         is_archived=pub.is_archived,
+    #         created_at=pub.created_at,
+    #         updated_at=pub.updated_at,
+    #         tags=[TagRepository._to_domain(t) for t in pub.tags] if pub.tags else []
+    #     )

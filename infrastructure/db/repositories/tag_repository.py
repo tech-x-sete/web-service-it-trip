@@ -44,14 +44,19 @@ class TagRepository(TagRepositoryPort):
         await self._session.commit()
         return True
 
-    def _to_domain(self, tag: TagModel) -> Tag:
-        return Tag(
-            id=tag.id,
-            name=tag.name,
-            created_at=tag.created_at,
-            publications=[self._publication_to_domain(p) for p in tag.publications] if tag.publications else []
-        )
+    def _to_domain(self, tag) -> 'Tag':
+        from infrastructure.converters import tag_to_domain
+        return tag_to_domain(tag)
+
+    # def _to_domain(self, tag: TagModel) -> Tag:
+    #     return Tag(
+    #         id=tag.id,
+    #         name=tag.name,
+    #         created_at=tag.created_at,
+    #         publications=[self._publication_to_domain(p) for p in tag.publications] if tag.publications else []
+    #     )
 
     # def _publication_to_domain(self, publication):
     #     from publication_repository import PublicationRepository
     #     return PublicationRepository._to_domain(None, publication)
+    #

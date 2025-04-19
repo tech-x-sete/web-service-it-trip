@@ -11,6 +11,14 @@ from core import domain
 from pathlib import Path
 import os
 
+from sqlalchemy.orm import selectinload
+
+# # Для всех связей добавляем стратегии загрузки
+# Publication.tags = relationship("Tag",
+#                               secondary=publication_tags,
+#                               back_populates="publications",
+#                               lazy="selectin")
+
 db_dir = Path(__file__).parent
 
 # Подключение к базе данных в папке db
@@ -94,7 +102,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String(50), nullable=False, unique=True)
-    email = Column(String(100), nullable=False, unique=True)
+    login = Column(String(100), nullable=False, unique=True)
     password_hash = Column(String(255), nullable=False)
     role = Column(Enum(RoleEnum), nullable=False)
     created_at = Column(DateTime, default=func.now())
@@ -110,7 +118,7 @@ class User(Base):
         return domain.User(
             id=self.id,
             username=self.username,
-            email=self.email,
+            login=self.login,
             password_hash=self.password_hash,
             role=self.role,
             created_at=self.created_at,
