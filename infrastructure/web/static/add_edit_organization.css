@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+
 :root {
     --main-bg: #fff;
     --main-color: #111;
@@ -10,7 +12,7 @@
     --border-radius: 10px;
     --container-max-width: 400px;
     --container-padding: 24px 12px 0 12px;
-    --font-family: 'Arial', sans-serif;
+    --font-family: 'Manrope', sans-serif;
     --h1-size: 1.5rem;
     --label-size: 0.98rem;
     --input-font-size: 1rem;

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&display=swap');
+
 :root {
     --main-bg: #fff;
     --main-text-color: #111;
@@ -8,7 +10,7 @@
     --primary-button-hover-bg: #2236a5;
     --white: #fff;
   
-    --font-family: 'Arial', sans-serif;
+    --font-family:  'Manrope', sans-serif;
   
     --container-max-width: 400px;
   
