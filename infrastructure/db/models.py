@@ -8,7 +8,13 @@ from sqlalchemy.sql import func
 import enum
 from core import domain
 
-engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')  # Создание бд
+from pathlib import Path
+import os
+
+db_dir = Path(__file__).parent
+
+# Подключение к базе данных в папке db
+engine = create_async_engine(url=f'sqlite+aiosqlite:///{db_dir}/db.sqlite3')  # Создание бд
 
 async_session = async_sessionmaker(engine, expire_on_commit=False)  # Подключение к бд
 
@@ -47,7 +53,6 @@ publication_tags = Table(
 organization_subscriptions = Table(
     'organization_subscriptions',
     Base.metadata,
-    Column('subscriber_id', Integer, ForeignKey('telegram_subscribers.id', ondelete='CASCADE'), primary_key=True),
     Column('organization_id', Integer, ForeignKey('organizations.id', ondelete='CASCADE'), primary_key=True),
     Column('subscribed_at', DateTime, default=func.now())
 )
@@ -69,9 +74,6 @@ class Organization(Base):
 
     writers = relationship("User", secondary=organization_writers, back_populates="organizations")
     publications = relationship("Publication", back_populates="organization")
-    # subscribers = relationship("TelegramSubscriber",
-    #                            secondary=organization_subscriptions,
-    #                            back_populates="subscriptions")
 
     @staticmethod
     def to_domain(self) -> domain.Organization:
@@ -83,8 +85,7 @@ class Organization(Base):
             created_at=self.created_at,
             updated_at=self.updated_at,
             writers=self.writers,
-            publications=self.publications,
-            # subscribers=self.subscribers
+            publications=self.publications
         )
 
 
@@ -176,18 +177,6 @@ class Publication(Base):
             tags=self.tags
         )
 
-
-# class TelegramSubscriber(Base):
-#     __tablename__ = 'telegram_subscribers'
-#
-#     id = Column(Integer, primary_key=True)
-#     chat_id = Column(BigInteger, nullable=False, unique=True)
-#     username = Column(String(100))
-#     subscribed_at = Column(DateTime, default=func.now())
-#
-    # subscriptions = relationship("Organization",
-    #                              secondary=organization_subscriptions,
-    #                              back_populates="subscribers")
 
 async def init_models():
     async with engine.begin() as conn:

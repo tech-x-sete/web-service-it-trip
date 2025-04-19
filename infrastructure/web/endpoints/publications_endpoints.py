@@ -1,9 +1,15 @@
 from ..main import app
+from infrastructure.db.models import async_session
+from infrastructure.db.repositories.publication_repository import PublicationRepository
+from flask import render_template
 
 
 @app.route('/v1/publications', methods=['GET'])
 def get_publications():
-    ...
+    async with async_session() as session:
+        repo = PublicationRepository(session)
+        data = repo.get_all_publications()
+        render_template('templates/', data=data)
 
 
 @app.route('/v1/publications/{publication_id}', methods=['GET'])
