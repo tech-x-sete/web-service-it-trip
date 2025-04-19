@@ -9,6 +9,7 @@ import enum
 
 Base = declarative_base()
 
+
 # ---------------------------
 # ENUM для ролей
 # ---------------------------
@@ -18,7 +19,8 @@ class RoleEnum(enum.Enum):
     writer = "writer"
     guest = "guest"
 
-# --------------------------- 
+
+# ---------------------------
 # Вспомогательные таблицы
 # ---------------------------
 
@@ -45,7 +47,8 @@ organization_subscriptions = Table(
     Column('subscribed_at', DateTime, default=func.now())
 )
 
-# --------------------------- 
+
+# ---------------------------
 # Основные таблицы
 # ---------------------------
 
@@ -61,7 +64,9 @@ class Organization(Base):
 
     writers = relationship("User", secondary=organization_writers, back_populates="organizations")
     publications = relationship("Publication", back_populates="organization")
-    subscribers = relationship("TelegramSubscriber", secondary=organization_subscriptions, back_populates="subscriptions")
+    subscribers = relationship("TelegramSubscriber", secondary=organization_subscriptions,
+                               back_populates="subscriptions")
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -77,6 +82,7 @@ class User(Base):
     organizations = relationship("Organization", secondary=organization_writers, back_populates="writers")
     publications = relationship("Publication", back_populates="writer")
 
+
 class Tag(Base):
     __tablename__ = 'tags'
 
@@ -85,6 +91,7 @@ class Tag(Base):
     created_at = Column(DateTime, default=func.now())
 
     publications = relationship("Publication", secondary=publication_tags, back_populates="tags")
+
 
 class Publication(Base):
     __tablename__ = 'publications'
@@ -106,6 +113,7 @@ class Publication(Base):
     organization = relationship("Organization", back_populates="publications")
     tags = relationship("Tag", secondary=publication_tags, back_populates="publications")
 
+
 class TelegramSubscriber(Base):
     __tablename__ = 'telegram_subscribers'
 
@@ -116,18 +124,20 @@ class TelegramSubscriber(Base):
 
     subscriptions = relationship("Organization", secondary=organization_subscriptions, back_populates="subscribers")
 
+
 # Инициализация асинхронной базы данных
-def init_db(db_url='postgresql+asyncpg://user:password@localhost:5432/aggregator'):
+def init_db(db_url='sqlite+aiosqlite:///db.sqlite3'):
     engine = create_async_engine(db_url, echo=True)
     AsyncSessionLocal = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
-    
+
     async def init_models():
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-    
+
     import asyncio
     asyncio.run(init_models())
     return AsyncSessionLocal
+
 
 # Глобальная переменная для асинхронной сессии
 db_session = init_db()
