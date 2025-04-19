@@ -72,6 +72,20 @@ class Organization(Base):
     subscribers = relationship("TelegramSubscriber", secondary=organization_subscriptions,
                                back_populates="subscriptions")
 
+    @staticmethod
+    def to_domain(self) -> domain.Organization:
+        return domain.Organization(
+            id=self.id,
+            name=self.name,
+            description=self.description,
+            logo_url=self.logo_url,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+            writers=self.writers,
+            publications=self.publications,
+            subscribers=self.subscribers
+        )
+
 
 class User(Base):
     __tablename__ = 'users'
@@ -87,6 +101,20 @@ class User(Base):
     organizations = relationship("Organization", secondary=organization_writers, back_populates="writers")
     publications = relationship("Publication", back_populates="writer")
 
+    @staticmethod
+    def to_domain(self) -> domain.User:
+        return domain.User(
+            id=self.id,
+            username=self.username,
+            email=self.email,
+            password_hash=self.password_hash,
+            role=self.role,
+            created_at=self.created_at,
+            updated_at=self.udated_at,
+            organizations=self.organizations,
+            publications=self.publications
+        )
+
 
 class Tag(Base):
     __tablename__ = 'tags'
@@ -96,6 +124,15 @@ class Tag(Base):
     created_at = Column(DateTime, default=func.now())
 
     publications = relationship("Publication", secondary=publication_tags, back_populates="tags")
+
+    @staticmethod
+    def to_domain(self) -> domain.Tag:
+        return domain.Tag(
+            id=self.id,
+            name=self.name,
+            created_at=self.created_at,
+            publications=self.publications
+        )
 
 
 class Publication(Base):
@@ -121,19 +158,31 @@ class Publication(Base):
     @staticmethod
     def to_domain(self) -> domain.Publication:
         return domain.Publication(
-            ...
+            id=self.id,
+            title=self.title,
+            content=self.content,
+            featured_image_url=self.featured_image_url,
+            writer_id=self.writer_id,
+            organization_id=self.organization_id,
+            publish_date=self.publish_date,
+            event_start_date=self.event_start_date,
+            event_end_date=self.event_end_date,
+            is_archived=self.is_archived,
+            created_at=self.created_at,
+            updated_at=self.updated_at,
+            tags=self.tags
         )
 
 
-class TelegramSubscriber(Base):
-    __tablename__ = 'telegram_subscribers'
-
-    id = Column(Integer, primary_key=True)
-    chat_id = Column(BigInteger, nullable=False, unique=True)
-    username = Column(String(100))
-    subscribed_at = Column(DateTime, default=func.now())
-
-    subscriptions = relationship("Organization", secondary=organization_subscriptions, back_populates="subscribers")
+# class TelegramSubscriber(Base):
+#     __tablename__ = 'telegram_subscribers'
+#
+#     id = Column(Integer, primary_key=True)
+#     chat_id = Column(BigInteger, nullable=False, unique=True)
+#     username = Column(String(100))
+#     subscribed_at = Column(DateTime, default=func.now())
+#
+#     subscriptions = relationship("Organization", secondary=organization_subscriptions, back_populates="subscribers")
 
 
 async def init_models():
