@@ -7,11 +7,13 @@ from infrastructure.db.models import (
     Publication as PublicationModel,
     Tag as TagModel,
     User as UserModel,
-    Organization as OrganizationModel
+    Organization as OrganizationModel, async_session
 )
 from typing import Optional, List, Dict, Any
 from datetime import datetime
 from sqlalchemy.orm import selectinload
+
+from infrastructure.db.repositories.organization_repository import OrganizationRepository
 
 
 class PublicationRepository(PublicationRepositoryPort):
@@ -23,7 +25,7 @@ class PublicationRepository(PublicationRepositoryPort):
             title: str,
             content: str,
             writer_id: int,
-            organization_id: int,
+            organization_id: int,  # Возможно здесь что-то
             publish_date: datetime,
             featured_image_url: Optional[str] = None,
             event_start_date: Optional[datetime] = None,
@@ -32,11 +34,15 @@ class PublicationRepository(PublicationRepositoryPort):
             tags: Optional[List[str]] = None
     ) -> Optional[Publication]:
         try:
+            async with async_session() as session:
+                repo = OrganizationRepository(session)
+                organization = repo.get_organization_by_id(organization_id)
+
             pub = PublicationModel(
                 title=title,
                 content=content,
                 writer_id=writer_id,
-                organization_id=organization_id,
+                organization=organization,
                 publish_date=publish_date,
                 featured_image_url=featured_image_url,
                 event_start_date=event_start_date,
@@ -54,7 +60,7 @@ class PublicationRepository(PublicationRepositoryPort):
 
             self._session.add(pub)
             await self._session.commit()
-            return self._to_domain(pub)
+            return await self._to_domain(pub)
         except IntegrityError:
             await self._session.rollback()
             return None
@@ -72,23 +78,23 @@ class PublicationRepository(PublicationRepositoryPort):
             )
         )
         pubs = result.scalars().all()
-        return [self._to_domain(pub) for pub in pubs]
+        return [await self._to_domain(pub) for pub in pubs]
 
     async def get_publications_by_organization(self, org_id: int) -> List[Publication]:
         result = await self._session.execute(
             select(PublicationModel).filter_by(organization_id=org_id))
-        return [self._to_domain(pub) for pub in result.scalars()]
+        return [await self._to_domain(pub) for pub in result.scalars()]
 
     async def get_publications_by_writer(self, writer_id: int) -> List[Publication]:
         result = await self._session.execute(
             select(PublicationModel).filter_by(writer_id=writer_id))
-        return [self._to_domain(pub) for pub in result.scalars()]
+        return [await self._to_domain(pub) for pub in result.scalars()]
 
     async def get_publications_by_tag(self, tag_name: str) -> List[Publication]:
         result = await self._session.execute(
             select(TagModel).filter_by(name=tag_name))
         tag = result.scalars().first()
-        return [self._to_domain(pub) for pub in tag.publications] if tag else []
+        return [await self._to_domain(pub) for pub in tag.publications] if tag else []
 
     async def update_publication(self, pub_id: int, **kwargs: Any) -> Optional[Publication]:
         pub = await self._session.get(PublicationModel, pub_id)
@@ -98,7 +104,7 @@ class PublicationRepository(PublicationRepositoryPort):
         for key, value in kwargs.items():
             setattr(pub, key, value)
         await self._session.commit()
-        return self._to_domain(pub)
+        return await self._to_domain(pub)
 
     async def delete_publication(self, pub_id: int) -> bool:
         pub = await self._session.get(PublicationModel, pub_id)
@@ -131,9 +137,10 @@ class PublicationRepository(PublicationRepositoryPort):
         await self._session.commit()
         return True
 
-    def _to_domain(self, pub) -> 'Publication':
+    async def _to_domain(self, pub) -> 'Publication':
         from infrastructure.converters import publication_to_domain
-        return publication_to_domain(pub)
+        result = await publication_to_domain(pub)
+        return result
 
     # def _to_domain(self, pub: PublicationModel) -> Publication:
     #     # from user_repository import UserRepository

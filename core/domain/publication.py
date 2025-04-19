@@ -11,7 +11,7 @@ class Publication:
     content: str = ""
     featured_image_url: Optional[str] = None
     writer_id: Optional[int] = None
-    organization_id: Optional[int] = None
+    organization: Optional['Organization'] = None  # Мейби тут что-то
     publish_date: datetime = datetime.now()
     event_start_date: Optional[datetime] = None
     event_end_date: Optional[datetime] = None
@@ -27,7 +27,7 @@ class Publication:
             "content": self.content,
             "featured_image_url": self.featured_image_url,
             "writer_id": self.writer_id,
-            "organization_id": self.organization_id,
+            "organization": self.organization,
             "publish_date": self.publish_date.isoformat() if self.publish_date else None,
             "event_start_date": self.event_start_date.isoformat() if self.event_start_date else None,
             "event_end_date": self.event_end_date.isoformat() if self.event_end_date else None,

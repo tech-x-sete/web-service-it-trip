@@ -175,7 +175,7 @@ class Publication(Base):
             content=self.content,
             featured_image_url=self.featured_image_url,
             writer_id=self.writer_id,
-            organization_id=self.organization_id,
+            organization=self.organization,
             publish_date=self.publish_date,
             event_start_date=self.event_start_date,
             event_end_date=self.event_end_date,

@@ -8,7 +8,7 @@ from infrastructure.db.models import (
     Organization as OrganizationModel,
     User as UserModel
 )
-from typing import Optional, List
+from typing import Optional, List, Any
 
 
 class OrganizationRepository(OrganizationRepositoryPort):
@@ -48,6 +48,18 @@ class OrganizationRepository(OrganizationRepositoryPort):
         org.writers.append(writer)
         await self._session.commit()
         return True
+
+    def delete_organization(self, org_id: int) -> bool:
+        ...
+
+    def get_organization_writers(self, org_id: int) -> List[User]:
+        ...
+
+    def remove_writer(self, writer_id: int, organization_id: int) -> bool:
+        ...
+
+    def update_organization(self, org_id: int, **kwargs: Any) -> Optional[Organization]:
+        ...
 
     # Остальные методы реализуются аналогично
 
