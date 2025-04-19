@@ -18,3 +18,6 @@ class Publication:
     created_at: datetime = datetime.now()
     updated_at: datetime = datetime.now()
     tags: List['Tag'] = None  # Связь с тегами через композицию
+
+    def __str__(self):
+        ...

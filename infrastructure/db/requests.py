@@ -1,15 +1,16 @@
-from models import db_session, User, Organization, Tag, Publication, TelegramSubscriber
+from infrastructure.db.models import async_session, User, Organization, Tag, Publication, TelegramSubscriber
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
-from datetime import datetime
 
+
+# Заменить везде на доменные модели
 
 # -----------------------------
 # USERS
 # -----------------------------
 
 async def create_user(username, email, password_hash, role):
-    async with db_session() as session:
+    async with async_session() as session:
         try:
             user = User(
                 username=username,
@@ -26,26 +27,26 @@ async def create_user(username, email, password_hash, role):
 
 
 async def get_user_by_id(user_id):
-    async with db_session() as session:
+    async with async_session() as session:
         return await session.get(User, user_id)
 
 
 async def get_user_by_username(username):
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(User).filter_by(username=username)
         )).scalars().first()
 
 
 async def get_all_users():
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(User)
         )).scalars().all()
 
 
 async def update_user(user_id, **kwargs):
-    async with db_session() as session:
+    async with async_session() as session:
         user = await session.get(User, user_id)
         if user:
             for key, value in kwargs.items():
@@ -56,7 +57,7 @@ async def update_user(user_id, **kwargs):
 
 
 async def delete_user(user_id):
-    async with db_session() as session:
+    async with async_session() as session:
         user = await session.get(User, user_id)
         if user:
             await session.delete(user)
@@ -68,7 +69,7 @@ async def delete_user(user_id):
 # -----------------------------
 
 async def create_organization(name, description=None, logo_url=None):
-    async with db_session() as session:
+    async with async_session() as session:
         try:
             org = Organization(
                 name=name,
@@ -84,19 +85,19 @@ async def create_organization(name, description=None, logo_url=None):
 
 
 async def get_organization_by_id(org_id):
-    async with db_session() as session:
+    async with async_session() as session:
         return await session.get(Organization, org_id)
 
 
 async def get_all_organizations():
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(Organization)
         )).scalars().all()
 
 
 async def update_organization(org_id, **kwargs):
-    async with db_session() as session:
+    async with async_session() as session:
         org = await session.get(Organization, org_id)
         if org:
             for key, value in kwargs.items():
@@ -107,7 +108,7 @@ async def update_organization(org_id, **kwargs):
 
 
 async def delete_organization(org_id):
-    async with db_session() as session:
+    async with async_session() as session:
         org = await session.get(Organization, org_id)
         if org:
             await session.delete(org)
@@ -119,7 +120,7 @@ async def delete_organization(org_id):
 # -----------------------------
 
 async def create_tag(name):
-    async with db_session() as session:
+    async with async_session() as session:
         try:
             tag = Tag(name=name)
             session.add(tag)
@@ -131,26 +132,26 @@ async def create_tag(name):
 
 
 async def get_tag_by_id(tag_id):
-    async with db_session() as session:
+    async with async_session() as session:
         return await session.get(Tag, tag_id)
 
 
 async def get_tag_by_name(name):
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(Tag).filter_by(name=name)
         )).scalars().first()
 
 
 async def get_all_tags():
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(Tag)
         )).scalars().all()
 
 
 async def delete_tag(tag_id):
-    async with db_session() as session:
+    async with async_session() as session:
         tag = await session.get(Tag, tag_id)
         if tag:
             await session.delete(tag)
@@ -173,7 +174,7 @@ async def create_publication(
         is_archived=False,
         tags=None
 ):
-    async with db_session() as session:
+    async with async_session() as session:
         try:
             pub = Publication(
                 title=title,
@@ -204,33 +205,34 @@ async def create_publication(
 
 
 async def get_publication_by_id(pub_id):
-    async with db_session() as session:
+    async with async_session() as session:
         return await session.get(Publication, pub_id)
 
 
 async def get_all_publications():
-    async with db_session() as session:
-        return (await session.execute(
-            select(Publication)
-        )).scalars().all()
+    async with async_session() as session:
+        result = await session.execute(select(Publication))
+        data = result.scalars().all()
+
+        return [elem.to_domain() for elem in data] if data else "There are no publications"
 
 
 async def get_publications_by_organization(org_id):
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(Publication).filter_by(organization_id=org_id)
         )).scalars().all()
 
 
 async def get_publications_by_writer(writer_id):
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(Publication).filter_by(writer_id=writer_id)
         )).scalars().all()
 
 
 async def get_publications_by_tag(tag_name):
-    async with db_session() as session:
+    async with async_session() as session:
         tag = (await session.execute(
             select(Tag).filter_by(name=tag_name)
         )).scalars().first()
@@ -238,7 +240,7 @@ async def get_publications_by_tag(tag_name):
 
 
 async def update_publication(pub_id, **kwargs):
-    async with db_session() as session:
+    async with async_session() as session:
         pub = await session.get(Publication, pub_id)
         if pub:
             for key, value in kwargs.items():
@@ -249,7 +251,7 @@ async def update_publication(pub_id, **kwargs):
 
 
 async def delete_publication(pub_id):
-    async with db_session() as session:
+    async with async_session() as session:
         pub = await session.get(Publication, pub_id)
         if pub:
             await session.delete(pub)
@@ -261,7 +263,7 @@ async def delete_publication(pub_id):
 # -----------------------------
 
 async def add_writer_to_organization(writer_id, organization_id):
-    async with db_session() as session:
+    async with async_session() as session:
         writer = await session.get(User, writer_id)
         org = await session.get(Organization, organization_id)
         if writer and org:
@@ -272,7 +274,7 @@ async def add_writer_to_organization(writer_id, organization_id):
 
 
 async def remove_writer_from_organization(writer_id, organization_id):
-    async with db_session() as session:
+    async with async_session() as session:
         writer = await session.get(User, writer_id)
         org = await session.get(Organization, organization_id)
         if writer and org and writer in org.writers:
@@ -283,7 +285,7 @@ async def remove_writer_from_organization(writer_id, organization_id):
 
 
 async def get_organization_writers(org_id):
-    async with db_session() as session:
+    async with async_session() as session:
         org = await session.get(Organization, org_id)
         return org.writers if org else []
 
@@ -293,7 +295,7 @@ async def get_organization_writers(org_id):
 # -----------------------------
 
 async def add_tag_to_publication(publication_id, tag_id):
-    async with db_session() as session:
+    async with async_session() as session:
         pub = await session.get(Publication, publication_id)
         tag = await session.get(Tag, tag_id)
         if pub and tag:
@@ -304,7 +306,7 @@ async def add_tag_to_publication(publication_id, tag_id):
 
 
 async def remove_tag_from_publication(publication_id, tag_id):
-    async with db_session() as session:
+    async with async_session() as session:
         pub = await session.get(Publication, publication_id)
         tag = await session.get(Tag, tag_id)
         if pub and tag and tag in pub.tags:
@@ -319,7 +321,7 @@ async def remove_tag_from_publication(publication_id, tag_id):
 # -----------------------------
 
 async def create_telegram_subscriber(chat_id, username=None):
-    async with db_session() as session:
+    async with async_session() as session:
         try:
             sub = TelegramSubscriber(
                 chat_id=chat_id,
@@ -334,14 +336,14 @@ async def create_telegram_subscriber(chat_id, username=None):
 
 
 async def get_subscriber_by_chat_id(chat_id):
-    async with db_session() as session:
+    async with async_session() as session:
         return (await session.execute(
             select(TelegramSubscriber).filter_by(chat_id=chat_id)
         )).scalars().first()
 
 
 async def update_subscriber(chat_id, **kwargs):
-    async with db_session() as session:
+    async with async_session() as session:
         sub = (await session.execute(
             select(TelegramSubscriber).filter_by(chat_id=chat_id)
         )).scalars().first()
@@ -354,7 +356,7 @@ async def update_subscriber(chat_id, **kwargs):
 
 
 async def delete_subscriber(chat_id):
-    async with db_session() as session:
+    async with async_session() as session:
         sub = (await session.execute(
             select(TelegramSubscriber).filter_by(chat_id=chat_id)
         )).scalars().first()
@@ -368,7 +370,7 @@ async def delete_subscriber(chat_id):
 # -----------------------------
 
 async def subscribe_to_organization(chat_id, org_id):
-    async with db_session() as session:
+    async with async_session() as session:
         sub = (await session.execute(
             select(TelegramSubscriber).filter_by(chat_id=chat_id)
         )).scalars().first()
@@ -381,7 +383,7 @@ async def subscribe_to_organization(chat_id, org_id):
 
 
 async def unsubscribe_from_organization(chat_id, org_id):
-    async with db_session() as session:
+    async with async_session() as session:
         sub = (await session.execute(
             select(TelegramSubscriber).filter_by(chat_id=chat_id)
         )).scalars().first()
@@ -394,7 +396,7 @@ async def unsubscribe_from_organization(chat_id, org_id):
 
 
 async def get_subscriber_organizations(chat_id):
-    async with db_session() as session:
+    async with async_session() as session:
         sub = (await session.execute(
             select(TelegramSubscriber).filter_by(chat_id=chat_id)
         )).scalars().first()
@@ -402,6 +404,6 @@ async def get_subscriber_organizations(chat_id):
 
 
 async def get_organization_subscribers(org_id):
-    async with db_session() as session:
+    async with async_session() as session:
         org = await session.get(Organization, org_id)
         return org.subscribers if org else []

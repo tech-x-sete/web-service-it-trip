@@ -1,16 +1,16 @@
 from sqlalchemy import (
-    create_engine, Column, Integer, String, Text, DateTime,
+    Column, Integer, String, Text, DateTime,
     Boolean, Enum, ForeignKey, BigInteger, Table
 )
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 import enum
-import domain
+from core import domain
 
 engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')  # Создание бд
 
-async_session = async_sessionmaker(engine)  # Подключение к бд
+async_session = async_sessionmaker(engine, expire_on_commit=False)  # Подключение к бд
 
 Base = declarative_base()
 

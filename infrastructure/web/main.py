@@ -8,7 +8,7 @@ app = Flask(__name__)
 # Разбить все роуты на роли
 
 def load_news():
-    with open('../news.json', 'r', encoding='utf-8') as f:
+    with open('../../news.json', 'r', encoding='utf-8') as f:
         news = json.load(f)
         # Форматируем даты для отображения
         for item in news:
