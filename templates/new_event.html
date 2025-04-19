@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Новое событие</title>
+    <link rel="stylesheet" href="../static/new_event.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Новое событие</h1>
+
+        <div class="form-group">
+            <label for="organization">Организация</label>
+            <select id="organization">
+                <option value="">Организацию</option>
+                <!-- Options here -->
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="image">Рекламное изображение</label>
+            <div class="image-upload">
+                <input type="file" id="image">
+                <span>Выберите изображение...</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="title">Заголовок</label>
+            <input type="text" id="title" placeholder="Введите заголовок...">
+        </div>
+
+        <div class="form-group date-group">
+            <label>Даты проведения</label>
+            <input type="date" id="start-date">
+            <input type="date" id="end-date" placeholder="Конец (необяз.)">
+        </div>
+
+        <div class="form-group">
+            <label for="location">Место проведения</label>
+            <input type="text" id="location" placeholder="Введите место...">
+        </div>
+
+        <div class="form-group">
+            <label for="description">Описание</label>
+            <textarea id="description" placeholder="Введите описание..."></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="button-title">Заголовок кнопки</label>
+            <input type="text" id="button-title" placeholder="Введите заголовок кнопки...">
+        </div>
+
+        <div class="form-group">
+            <label for="link">Ссылка</label>
+            <input type="url" id="link" placeholder="Введите ссылку...">
+        </div>
+
+        <button type="submit">Опубликовать</button>
+    </div>
+</body>
+</html>
