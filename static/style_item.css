@@ -53,6 +53,12 @@ body {
     margin-bottom: 5px;
 }
 
+.icon {
+    width: 18px;
+    height: 24px;
+    margin-right: 8px; 
+}
+
 .description {
     font-size: 1em;
     line-height: 1.4;

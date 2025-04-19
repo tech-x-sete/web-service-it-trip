@@ -58,7 +58,7 @@ body {
     color: var(--secondary-text-color);
     outline: none;
     box-sizing: border-box;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ccc' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Celine x1='22' y1='22' x2='16.65' y2='16.65'/%3E%3C/svg%3E");
+    background-image: url("../static/img/search.png");
     background-repeat: no-repeat;
     background-size: 1.2rem 1.2rem;
     background-position: 0.75rem center;
