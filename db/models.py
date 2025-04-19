@@ -13,7 +13,6 @@ async_session = async_sessionmaker(engine)  # Подключение к бд
 
 Base = declarative_base()
 
-
 # ---------------------------
 # ENUM для ролей
 # ---------------------------
@@ -23,8 +22,7 @@ class RoleEnum(enum.Enum):
     writer = "writer"
     guest = "guest"
 
-
-# ---------------------------
+# --------------------------- 
 # Вспомогательные таблицы
 # ---------------------------
 
@@ -51,8 +49,7 @@ organization_subscriptions = Table(
     Column('subscribed_at', DateTime, default=func.now())
 )
 
-
-# ---------------------------
+# --------------------------- 
 # Основные таблицы
 # ---------------------------
 
@@ -68,9 +65,7 @@ class Organization(Base):
 
     writers = relationship("User", secondary=organization_writers, back_populates="organizations")
     publications = relationship("Publication", back_populates="organization")
-    subscribers = relationship("TelegramSubscriber", secondary=organization_subscriptions,
-                               back_populates="subscriptions")
-
+    subscribers = relationship("TelegramSubscriber", secondary=organization_subscriptions, back_populates="subscriptions")
 
 class User(Base):
     __tablename__ = 'users'
@@ -86,7 +81,6 @@ class User(Base):
     organizations = relationship("Organization", secondary=organization_writers, back_populates="writers")
     publications = relationship("Publication", back_populates="writer")
 
-
 class Tag(Base):
     __tablename__ = 'tags'
 
@@ -96,6 +90,16 @@ class Tag(Base):
 
     publications = relationship("Publication", secondary=publication_tags, back_populates="tags")
 
+class PublicationButton(Base):
+    __tablename__ = 'publication_buttons'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
+    url = Column(String(255), nullable=False)
+    publication_id = Column(Integer, ForeignKey('publications.id', ondelete='CASCADE'))
+    created_at = Column(DateTime, default=func.now())
+
+    publication = relationship("Publication", back_populates="buttons")
 
 class Publication(Base):
     __tablename__ = 'publications'
@@ -116,7 +120,7 @@ class Publication(Base):
     writer = relationship("User", back_populates="publications")
     organization = relationship("Organization", back_populates="publications")
     tags = relationship("Tag", secondary=publication_tags, back_populates="publications")
-
+    buttons = relationship("PublicationButton", back_populates="publication", cascade="all, delete-orphan")
 
 class TelegramSubscriber(Base):
     __tablename__ = 'telegram_subscribers'

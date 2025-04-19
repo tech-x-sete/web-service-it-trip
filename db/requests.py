@@ -1,4 +1,4 @@
-from models import db_session, User, Organization, Tag, Publication, TelegramSubscriber
+from models import db_session, User, Organization, Tag, Publication, TelegramSubscriber, PublicationButton
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
 from datetime import datetime
@@ -162,16 +162,17 @@ async def delete_tag(tag_id):
 # -----------------------------
 
 async def create_publication(
-        title,
-        content,
-        writer_id,
-        organization_id,
-        publish_date,
-        featured_image_url=None,
-        event_start_date=None,
-        event_end_date=None,
-        is_archived=False,
-        tags=None
+    title, 
+    content, 
+    writer_id, 
+    organization_id, 
+    publish_date,
+    featured_image_url=None,
+    event_start_date=None,
+    event_end_date=None,
+    is_archived=False,
+    tags=None,
+    buttons=None
 ):
     async with db_session() as session:
         try:
@@ -186,7 +187,7 @@ async def create_publication(
                 event_end_date=event_end_date,
                 is_archived=is_archived
             )
-
+            
             if tags:
                 for tag_name in tags:
                     tag = (await session.execute(
@@ -194,14 +195,22 @@ async def create_publication(
                     )).scalars().first()
                     if tag:
                         pub.tags.append(tag)
-
+            
+            if buttons:
+                for button in buttons:
+                    btn = PublicationButton(
+                        name=button.get('name'),
+                        url=button.get('url'),
+                        publication=pub
+                    )
+                    session.add(btn)
+            
             session.add(pub)
             await session.commit()
             return pub
         except IntegrityError:
             await session.rollback()
             return None
-
 
 async def get_publication_by_id(pub_id):
     async with db_session() as session:
