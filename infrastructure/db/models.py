@@ -69,9 +69,9 @@ class Organization(Base):
 
     writers = relationship("User", secondary=organization_writers, back_populates="organizations")
     publications = relationship("Publication", back_populates="organization")
-    subscribers = relationship("TelegramSubscriber",
-                               secondary=organization_subscriptions,
-                               back_populates="subscriptions")
+    # subscribers = relationship("TelegramSubscriber",
+    #                            secondary=organization_subscriptions,
+    #                            back_populates="subscriptions")
 
     @staticmethod
     def to_domain(self) -> domain.Organization:
@@ -84,7 +84,7 @@ class Organization(Base):
             updated_at=self.updated_at,
             writers=self.writers,
             publications=self.publications,
-            subscribers=self.subscribers
+            # subscribers=self.subscribers
         )
 
 

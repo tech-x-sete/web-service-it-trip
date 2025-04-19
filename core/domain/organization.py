@@ -13,15 +13,15 @@ class Organization:
     updated_at: datetime = datetime.now()
     writers: List['User'] = None  # Связь с писателями
     publications: List['Publication'] = None  # Связь с публикациями
-    subscribers: List['TelegramSubscriber'] = None  # Связь с подписчиками
+    # subscribers: List['TelegramSubscriber'] = None  # Связь с подписчиками
 
     def __post_init__(self):
         if self.writers is None:
             self.writers = []
         if self.publications is None:
             self.publications = []
-        if self.subscribers is None:
-            self.subscribers = []
+        # if self.subscribers is None:
+        #     self.subscribers = []
 
     def add_writer(self, user: 'User') -> None:
         if user not in self.writers:

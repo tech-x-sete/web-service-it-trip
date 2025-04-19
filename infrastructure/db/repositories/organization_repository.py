@@ -61,7 +61,7 @@ class OrganizationRepository(OrganizationRepositoryPort):
             updated_at=org.updated_at,
             writers=[self._user_to_domain(u) for u in org.writers] if org.writers else []
         )
-
-    def _user_to_domain(self, user: UserModel) -> User:
-        from user_repository import UserRepository
-        return UserRepository._to_domain(None, user)  # Используем метод из UserRepository
+    #
+    # def _user_to_domain(self, user: UserModel) -> User:
+    #     from user_repository import UserRepository
+    #     return UserRepository._to_domain(None, user)  # Используем метод из UserRepository

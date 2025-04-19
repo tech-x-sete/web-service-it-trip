@@ -19,10 +19,14 @@ async def start(message: Message):
 async def echo(message: Message):
     await message.answer(message.text)
 
+
 @router.callback_query(F.data == "get_events")
 async def get_events(callback: CallbackQuery):
-    await callback.message.answer("HERE")
     async with async_session() as session:
-        repo = PublicationRepository(session)  # Создаем экземпляр репозитория
+        repo = PublicationRepository(session)
         publications = await repo.get_all_publications()
+
+        if not publications:
+            publications = ['There are no publications']
+
     await callback.message.answer("\n".join(publications))

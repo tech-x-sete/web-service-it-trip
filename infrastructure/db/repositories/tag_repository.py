@@ -52,6 +52,6 @@ class TagRepository(TagRepositoryPort):
             publications=[self._publication_to_domain(p) for p in tag.publications] if tag.publications else []
         )
 
-    def _publication_to_domain(self, publication):
-        from publication_repository import PublicationRepository
-        return PublicationRepository._to_domain(None, publication)
+    # def _publication_to_domain(self, publication):
+    #     from publication_repository import PublicationRepository
+    #     return PublicationRepository._to_domain(None, publication)
