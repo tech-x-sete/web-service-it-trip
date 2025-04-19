@@ -64,7 +64,7 @@ class UserRepository(UserRepositoryPort):
         return User(
             id=user.id,
             username=user.username,
-            email=user.email,
+            login=user.login,
             password_hash=user.password_hash,
             role=UserRole(user.role.value),
             created_at=user.created_at,

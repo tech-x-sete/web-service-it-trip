@@ -14,7 +14,7 @@ class UserRole(str, Enum):
 class User:
     id: Optional[int] = None
     username: str = ""
-    email: str = ""
+    login: str = ""
     password_hash: str = ""
     role: UserRole = UserRole.GUEST
     created_at: datetime = datetime.now()
