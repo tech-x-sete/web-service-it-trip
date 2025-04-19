@@ -1,4 +1,4 @@
-from ..main import app
+from ..init import app
 
 
 @app.route('/v1/users/{username}', methods=['GET'])

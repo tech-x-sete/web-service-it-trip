@@ -1,4 +1,4 @@
-from ..main import app
+from ..init import app
 from infrastructure.db.models import async_session
 from infrastructure.db.repositories.publication_repository import PublicationRepository
 from flask import render_template
