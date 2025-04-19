@@ -6,13 +6,14 @@
     --text-color: #000;
     --secondary-text-color: #5a5a5a;
     --button-bg-color: #3553ec;
-    --container-width: 350px;
+    --container-width: 90%;
     --border-radius: 20px;
 }
 
 body {
     font-family: var(--main-font);
     margin: 0;
+    padding: 0;
     background-color: var(--bg-color);
     color: var(--text-color);
     display: flex;
@@ -25,19 +26,25 @@ body {
     background-color: var(--bg-color);
     color: var(--text-color);
     border-radius: var(--border-radius);
-    padding: 20px;
-    width: var(--container-width);
+    width: 100%;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+
 }
 
 .header-image {
     width: 100%;
-    margin-bottom: 20px;
+    max-height: 50vh;
+    padding-bottom: 1rem;
+    object-fit:scale-down;
 }
 
 .header {
     text-align: center;
-    margin-bottom: 20px;
 }
 
 .header h1 {
@@ -46,15 +53,27 @@ body {
     font-weight: normal;
 }
 
-.event-info {
-    text-align: left;
-    margin-bottom: 20px;
+.content {
+    width: var(--container-width);
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
 }
 
-.event-info h2 {
-    font-size: 1.5em;
-    margin-bottom: 10px;
-    font-weight: normal;
+.info-title {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+
+
+.event-info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-bottom: 20px;
+    gap: 0.2rem;
+    
 }
 
 .event-info .date,
@@ -76,20 +95,17 @@ body {
     margin-bottom: 20px;
 }
 
-button {
-    width: 100%;
-    background-color: var(--button-bg-color);
-    color: var(--bg-color);
-    padding: 15px;
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s;
+.btn {
+    width: var(--container-width);
+    position:  fixed;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    bottom: 6vh;
 }
+
 
 .footer {
     text-align: center;
     font-size: 0.8em;
-    margin-top: 20px;
+    margin-top: 4rem;
 }
