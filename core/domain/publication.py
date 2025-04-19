@@ -20,25 +20,5 @@ class Publication:
     updated_at: datetime = datetime.now()
     tags: List['Tag'] = None  # Связь с тегами через композицию
 
-    def to_dict(self) -> Dict[str, Any]:
-        return {
-            "id": self.id,
-            "title": self.title,
-            "content": self.content,
-            "featured_image_url": self.featured_image_url,
-            "writer_id": self.writer_id,
-            "organization_id": self.organization_id,
-            "publish_date": self.publish_date.isoformat() if self.publish_date else None,
-            "event_start_date": self.event_start_date.isoformat() if self.event_start_date else None,
-            "event_end_date": self.event_end_date.isoformat() if self.event_end_date else None,
-            "is_archived": self.is_archived,
-            "created_at": self.created_at.isoformat() if self.created_at else None,
-            "updated_at": self.updated_at.isoformat() if self.updated_at else None,
-            "tags": [tag.to_dict() for tag in self.tags] if self.tags else []
-        }
-
-    def to_json(self) -> str:
-        return json.dumps(self.to_dict(), ensure_ascii=False, indent=4)
-
     def __str__(self):
         return f"{self.title}\n{self.content}"
