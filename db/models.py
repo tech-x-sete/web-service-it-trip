@@ -3,7 +3,7 @@ from sqlalchemy import (
     create_engine, Column, Integer, String, Text, DateTime,
     Boolean, Enum, ForeignKey, BigInteger, Table
 )
-from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 from sqlalchemy.sql import func
 import enum
 
@@ -15,6 +15,7 @@ Base = declarative_base()
 class RoleEnum(enum.Enum):
     moderator = "moderator"
     writer = "writer"
+    guest = "guest"
 
 # ---------------------------
 # Вспомогательные таблицы
@@ -113,3 +114,13 @@ class TelegramSubscriber(Base):
     subscribed_at = Column(DateTime, default=func.now())
 
     subscriptions = relationship("Organization", secondary=organization_subscriptions, back_populates="subscribers")
+
+# Инициализация базы данных
+def init_db(db_url='sqlite:///aggregator.db'):
+    engine = create_engine(db_url)
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    return Session()
+
+# Глобальная переменная для сессии
+db_session = init_db()
