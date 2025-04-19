@@ -69,7 +69,8 @@ class Organization(Base):
 
     writers = relationship("User", secondary=organization_writers, back_populates="organizations")
     publications = relationship("Publication", back_populates="organization")
-    subscribers = relationship("TelegramSubscriber", secondary=organization_subscriptions,
+    subscribers = relationship("TelegramSubscriber",
+                               secondary=organization_subscriptions,
                                back_populates="subscriptions")
 
     @staticmethod
@@ -98,7 +99,9 @@ class User(Base):
     created_at = Column(DateTime, default=func.now())
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
-    organizations = relationship("Organization", secondary=organization_writers, back_populates="writers")
+    organizations = relationship("Organization",
+                                 secondary=organization_writers,
+                                 back_populates="writers")
     publications = relationship("Publication", back_populates="writer")
 
     @staticmethod
@@ -182,8 +185,9 @@ class Publication(Base):
 #     username = Column(String(100))
 #     subscribed_at = Column(DateTime, default=func.now())
 #
-#     subscriptions = relationship("Organization", secondary=organization_subscriptions, back_populates="subscribers")
-
+    # subscriptions = relationship("Organization",
+    #                              secondary=organization_subscriptions,
+    #                              back_populates="subscribers")
 
 async def init_models():
     async with engine.begin() as conn:

@@ -20,4 +20,5 @@ class Publication:
     tags: List['Tag'] = None  # Связь с тегами через композицию
 
     def __str__(self):
-        ...
+        return (f"{self.title}\n"
+                f"{self.content}")
