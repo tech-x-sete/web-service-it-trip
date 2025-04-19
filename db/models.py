@@ -7,6 +7,10 @@ from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 import enum
 
+engine = create_async_engine(url='sqlite+aiosqlite:///db.sqlite3')  # Создание бд
+
+async_session = async_sessionmaker(engine)  # Подключение к бд
+
 Base = declarative_base()
 
 
@@ -125,19 +129,6 @@ class TelegramSubscriber(Base):
     subscriptions = relationship("Organization", secondary=organization_subscriptions, back_populates="subscribers")
 
 
-# Инициализация асинхронной базы данных
-def init_db(db_url='sqlite+aiosqlite:///db.sqlite3'):
-    engine = create_async_engine(db_url, echo=True)
-    AsyncSessionLocal = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
-
-    async def init_models():
-        async with engine.begin() as conn:
-            await conn.run_sync(Base.metadata.create_all)
-
-    import asyncio
-    asyncio.run(init_models())
-    return AsyncSessionLocal
-
-
-# Глобальная переменная для асинхронной сессии
-db_session = init_db()
+async def init_models():
+    async with engine.begin() as conn:
+        await conn.run_sync(Base.metadata.create_all)

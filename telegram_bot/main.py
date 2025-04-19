@@ -1,17 +1,21 @@
 from aiogram import Bot, Dispatcher
 # from app.database.models import async_main
+from db.models import init_models
 from handlers import router
+from dotenv import load_dotenv
 import os
 import logging
 import asyncio
 
-bot = Bot(os.getenv('TOKEN'))
+load_dotenv()
+
+bot = Bot(token=os.getenv('TOKEN'))
 dp = Dispatcher()
 
 
 async def main():
-    # await async_main()
-    ...
+    await init_models()
+
     dp.include_router(router)
     await dp.start_polling(bot)
 
