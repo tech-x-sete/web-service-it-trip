@@ -1,9 +1,9 @@
-# Здесь описываем модели
 from sqlalchemy import (
     create_engine, Column, Integer, String, Text, DateTime,
     Boolean, Enum, ForeignKey, BigInteger, Table
 )
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy.sql import func
 import enum
 
@@ -12,12 +12,13 @@ Base = declarative_base()
 # ---------------------------
 # ENUM для ролей
 # ---------------------------
+
 class RoleEnum(enum.Enum):
     moderator = "moderator"
     writer = "writer"
     guest = "guest"
 
-# ---------------------------
+# --------------------------- 
 # Вспомогательные таблицы
 # ---------------------------
 
@@ -44,7 +45,7 @@ organization_subscriptions = Table(
     Column('subscribed_at', DateTime, default=func.now())
 )
 
-# ---------------------------
+# --------------------------- 
 # Основные таблицы
 # ---------------------------
 
@@ -115,12 +116,18 @@ class TelegramSubscriber(Base):
 
     subscriptions = relationship("Organization", secondary=organization_subscriptions, back_populates="subscribers")
 
-# Инициализация базы данных
-def init_db(db_url='sqlite:///aggregator.db'):
-    engine = create_engine(db_url)
-    Base.metadata.create_all(engine)
-    Session = sessionmaker(bind=engine)
-    return Session()
+# Инициализация асинхронной базы данных
+def init_db(db_url='postgresql+asyncpg://user:password@localhost:5432/aggregator'):
+    engine = create_async_engine(db_url, echo=True)
+    AsyncSessionLocal = async_sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
+    
+    async def init_models():
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    
+    import asyncio
+    asyncio.run(init_models())
+    return AsyncSessionLocal
 
-# Глобальная переменная для сессии
+# Глобальная переменная для асинхронной сессии
 db_session = init_db()
