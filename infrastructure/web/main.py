@@ -1,4 +1,6 @@
 from flask import Flask, render_template
+from sympy.testing.runtests import method
+
 import functions
 
 app = Flask(__name__)
@@ -7,15 +9,10 @@ app = Flask(__name__)
 # Разбить все роуты на роли
 
 
-@app.route('/', '/main')
+@app.route('/', '/main', methods=['GET'])
 def newsfeed():
     news = functions.load_news()
     return render_template('newsfeed.html', news=news)
-
-
-@app.route('/add_writer')
-def add_writer():
-    ...
 
 
 @app.route('/delete_writer')
