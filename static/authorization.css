@@ -1,8 +1,18 @@
+:root {
+    --main-font: sans-serif;
+    --bg-color: #fff;
+    --text-color: #000;
+    --primary-color: #4a7bff;
+    --primary-color-hover: #3a64cc;
+    --container-max-width: 400px;
+    --button-border-radius: 10px;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: var(--main-font);
     margin: 0;
-    background-color: #fff;
-    color: #000;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -12,7 +22,7 @@ body {
 
 .container {
     width: 90%;
-    max-width: 400px;
+    max-width: var(--container-max-width);
     padding: 20px;
     box-sizing: border-box;
 }
@@ -30,11 +40,11 @@ body {
 }
 
 .login-button {
-    background-color: #4a7bff;
+    background-color: var(--primary-color);
     color: #fff;
     padding: 15px;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--button-border-radius);
     font-size: 1.2em;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -43,5 +53,5 @@ body {
 }
 
 .login-button:hover {
-    background-color: #3a64cc;
+    background-color: var(--primary-color-hover);
 }

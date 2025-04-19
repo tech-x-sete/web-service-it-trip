@@ -1,15 +1,38 @@
+:root {
+    --main-bg: #fff;
+    --main-color: #111;
+    --secondary-color: #888;
+    --input-bg: #f3f3f3;
+    --input-border: #ccc;
+    --button-bg: #3553ec;
+    --button-bg-hover: #2236a5;
+    --button-color: #fff;
+    --border-radius: 10px;
+    --container-max-width: 400px;
+    --container-padding: 24px 12px 0 12px;
+    --font-family: 'Arial', sans-serif;
+    --h1-size: 1.5rem;
+    --label-size: 0.98rem;
+    --input-font-size: 1rem;
+    --button-font-size: 1rem;
+    --footer-size: 1rem;
+    --file-placeholder-padding: 12px 44px 12px 12px;
+    --button-padding: 12px 18px;
+    --button-min-width: 220px;
+}
+
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: #fff;
-    color: #111;
+    font-family: var(--font-family);
+    background: var(--main-bg);
+    color: var(--main-color);
 }
 
 .container {
-    max-width: 400px;
+    max-width: var(--container-max-width);
     margin: 0 auto;
-    padding: 24px 12px 0 12px;
+    padding: var(--container-padding);
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -23,14 +46,14 @@ body {
 }
 
 h1 {
-    font-size: 1.5rem;
+    font-size: var(--h1-size);
     font-weight: bold;
     margin-bottom: 18px;
 }
 
 .label {
-    font-size: 0.98rem;
-    color: #888;
+    font-size: var(--label-size);
+    color: var(--secondary-color);
     margin-bottom: 4px;
     margin-top: 10px;
     display: block;
@@ -55,12 +78,12 @@ h1 {
 .file-placeholder {
     display: block;
     width: 100%;
-    padding: 12px 44px 12px 12px;
-    background: #f3f3f3;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    color: #888;
-    font-size: 1rem;
+    padding: var(--file-placeholder-padding);
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: var(--border-radius);
+    color: var(--secondary-color);
+    font-size: var(--input-font-size);
     box-sizing: border-box;
     position: relative;
     z-index: 1;
@@ -72,7 +95,7 @@ h1 {
     top: 50%;
     transform: translateY(-50%);
     font-size: 1.3rem;
-    color: #888;
+    color: var(--secondary-color);
     pointer-events: none;
     z-index: 3;
 }
@@ -81,11 +104,11 @@ input[type="text"],
 textarea {
     width: 100%;
     padding: 12px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    font-size: 1rem;
-    background: #f3f3f3;
-    color: #111;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--input-border);
+    font-size: var(--input-font-size);
+    background: var(--input-bg);
+    color: var(--main-color);
     margin-bottom: 12px;
     box-sizing: border-box;
 }
@@ -98,27 +121,27 @@ textarea {
 button {
     display: block;
     width: fit-content;
-    min-width: 220px;
+    min-width: var(--button-min-width);
     margin-left: auto;
-    padding: 12px 18px;
+    padding: var(--button-padding);
     border: none;
-    border-radius: 10px;
-    background: #3553ec;
-    color: #fff;
-    font-size: 1rem;
+    border-radius: var(--border-radius);
+    background: var(--button-bg);
+    color: var(--button-color);
+    font-size: var(--button-font-size);
     font-weight: 500;
     cursor: pointer;
     transition: background 0.2s;
 }
 
 button:hover {
-    background: #2236a5;
+    background: var(--button-bg-hover);
 }
 
 footer {
     text-align: center;
-    color: #888;
+    color: var(--secondary-color);
     margin-top: auto;
     padding: 40px 0 12px 0;
-    font-size: 1rem;
+    font-size: var(--footer-size);
 }

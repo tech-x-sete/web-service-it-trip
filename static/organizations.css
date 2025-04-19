@@ -1,8 +1,19 @@
+:root {
+    --main-font: Arial, sans-serif;
+    --bg-color: #fff;
+    --text-color: #333;
+    --primary-color: #4a7bff;
+    --primary-color-hover: #3a64cc;
+    --secondary-bg-color: #EFEFEF;
+    --light-text-color: #777;
+    --border-radius: 5px;
+}
+
 body {
-    font-family: Arial, sans-serif;
+    font-family: var(--main-font);
     margin: 0 auto;
-    background-color: #fff;
-    color: #333;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
 .container {
@@ -29,7 +40,7 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
-  }
+}
 
 .organization-list {
     display: flex;
@@ -39,7 +50,7 @@ body {
 }
 
 .organization-card {
-    background-color: #EFEFEF;
+    background-color: var(--secondary-bg-color);
     border-radius: 10px;
     padding: 15px;
     display: flex;
@@ -58,26 +69,31 @@ body {
 }
 
 .delete-button {
-    background-color: #4a7bff;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
 }
 
 .footer {
     text-align: center;
     margin-top: 20px;
-    color: #777;
+    color: var(--light-text-color);
 }
 
 .add-organization-button {
-    background-color: #4a7bff;
+    background-color: var(--primary-color);
     color: white;
     border: none;
     padding: 10px 15px;
-    border-radius: 5px;
+    border-radius: var(--border-radius);
     cursor: pointer;
     margin-left: auto;
+}
+
+.delete-button:hover,
+.add-organization-button:hover {
+    background-color: var(--primary-color-hover);
 }

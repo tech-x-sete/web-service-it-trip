@@ -1,8 +1,18 @@
+:root {
+    --main-font: sans-serif;
+    --bg-color: #fff;
+    --text-color: #000;
+    --accent-color: #4a7bff;
+    --accent-color-hover: #3a64cc;
+    --container-max-width: 400px;
+    --button-border-radius: 10px;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: var(--main-font);
     margin: 0;
-    background-color: #fff;
-    color: #000;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -11,18 +21,23 @@ body {
 
 .container {
     width: 90%;
-    max-width: 400px;
+    max-width: var(--container-max-width);
     padding: 20px;
     box-sizing: border-box;
     text-align: center;
+}
+
+h1 {
+    font-size: 1.7em;
+    margin-bottom: 20px;
 }
 
 .profile-image {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background-color: #fff;
-    color: #000;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     margin: 20px auto;
     display: flex;
     justify-content: center;
@@ -32,7 +47,7 @@ body {
 .profile-image svg {
     width: 60px;
     height: 60px;
-    fill: #fff;
+    fill: var(--text-color);
 }
 
 .user-name {
@@ -47,11 +62,11 @@ body {
 }
 
 .logout-button {
-    background-color: #4a7bff;
-    color: #fff;
+    background-color: var(--accent-color);
+    color: var(--bg-color);
     padding: 15px;
     border: none;
-    border-radius: 10px;
+    border-radius: var(--button-border-radius);
     font-size: 1.2em;
     cursor: pointer;
     transition: background-color 0.3s;
@@ -61,10 +76,5 @@ body {
 }
 
 .logout-button:hover {
-    background-color: #3a64cc;
-}
-
-h1 {
-    font-size: 1.7em;
-    margin-bottom: 20px;
+    background-color: var(--accent-color-hover);
 }

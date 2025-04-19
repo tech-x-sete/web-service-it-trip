@@ -1,8 +1,18 @@
+:root {
+    --main-font: sans-serif;
+    --bg-color: #fff;
+    --text-color: #000;
+    --secondary-text-color: #5a5a5a;
+    --button-bg-color: #3553ec;
+    --container-width: 350px;
+    --border-radius: 20px;
+}
+
 body {
-    font-family: sans-serif;
+    font-family: var(--main-font);
     margin: 0;
-    background-color: #fff;
-    color: #fff;
+    background-color: var(--bg-color);
+    color: var(--text-color);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -10,11 +20,11 @@ body {
 }
 
 .container {
-    background-color: #fff;
-    color: #000;
-    border-radius: 20px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
     padding: 20px;
-    width: 350px;
+    width: var(--container-width);
     box-sizing: border-box;
 }
 
@@ -33,7 +43,6 @@ body {
     margin-bottom: 5px;
     font-weight: normal;
 }
-
 
 .event-info {
     text-align: left;
@@ -56,7 +65,7 @@ body {
 .icon {
     width: 18px;
     height: 24px;
-    margin-right: 8px; 
+    margin-right: 8px;
 }
 
 .description {
@@ -65,22 +74,16 @@ body {
     margin-bottom: 20px;
 }
 
-
-.buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.buttons a {
-    background-color: #5a5a5a;
-    color: #fff;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    text-align: center;
-    display: block;
+button {
+    width: 100%;
+    background-color: var(--button-bg-color);
+    color: var(--bg-color);
+    padding: 15px;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .footer {
