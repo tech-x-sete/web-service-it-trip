@@ -1,7 +1,6 @@
 from aiogram import Router, F
 from aiogram.filters import CommandStart, Command
-from aiogram.filters.callback_data import CallbackData
-from aiogram.types import Message
+from aiogram.types import Message, CallbackQuery
 
 router = Router()
 
@@ -16,6 +15,6 @@ async def echo(message: Message):
     await message.answer("Echo")
 
 
-@router.callback_query(...)
-async def get_events(callback: CallbackData):
+@router.callback_query(F.data == "get_events")
+async def get_events(callback: CallbackQuery):
     await ...
