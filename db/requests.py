@@ -1,5 +1,6 @@
 from models import db_session, User, Organization, Tag, Publication, TelegramSubscriber
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import select
 from datetime import datetime
 
 
