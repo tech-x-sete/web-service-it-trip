@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Новая организация</title>
+    <link rel="stylesheet" href="../static/add_edit_organization.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Новая организация</h1>
+        <form>
+            <label class="label" for="logo">Логотип организации</label>
+            <div class="file-upload">
+                <input type="file" id="logo" accept="image/*">
+                <span class="file-placeholder">Выберите лого...</span>
+                <span class="upload-icon">&#8682;</span>
+            </div>
+
+            <label class="label" for="orgname">Название организации</label>
+            <input type="text" id="orgname" placeholder="Введите название...">
+
+            <label class="label" for="orgdesc">Описание</label>
+            <textarea id="orgdesc" placeholder="Введите организацию..."></textarea>
+
+            <div class="header">
+                <button type="submit">Добавить организацию</button>
+            </div>
+        </form>
+        <footer>
+            tech x sete &bull; 2025
+        </footer>
+    </div>
+</body>
+</html>

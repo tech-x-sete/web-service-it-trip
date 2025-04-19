@@ -1,0 +1,124 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background: #fff;
+    color: #111;
+}
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 24px 12px 0 12px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.label {
+    font-size: 0.98rem;
+    color: #888;
+    margin-bottom: 4px;
+    margin-top: 10px;
+    display: block;
+}
+
+.file-upload {
+    position: relative;
+    margin-bottom: 12px;
+}
+
+.file-upload input[type="file"] {
+    opacity: 0;
+    width: 100%;
+    height: 44px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.file-placeholder {
+    display: block;
+    width: 100%;
+    padding: 12px 44px 12px 12px;
+    background: #f3f3f3;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    color: #888;
+    font-size: 1rem;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 1;
+}
+
+.upload-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.3rem;
+    color: #888;
+    pointer-events: none;
+    z-index: 3;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    background: #f3f3f3;
+    color: #111;
+    margin-bottom: 12px;
+    box-sizing: border-box;
+}
+
+textarea {
+    min-height: 60px;
+    resize: vertical;
+}
+
+button {
+    display: block;
+    width: fit-content;
+    min-width: 220px;
+    margin-left: auto;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #3553ec;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #2236a5;
+}
+
+footer {
+    text-align: center;
+    color: #888;
+    margin-top: auto;
+    padding: 40px 0 12px 0;
+    font-size: 1rem;
+}
