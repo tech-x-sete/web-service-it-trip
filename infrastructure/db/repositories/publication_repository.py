@@ -30,8 +30,9 @@ class PublicationRepository(PublicationRepositoryPort):
             publish_date: datetime,
             location: str,
             featured_image_url: Optional[str] = None,
-            event_date: Optional[datetime] = None,
-            is_archived: bool = False
+            event_date: str = "",
+            is_archived: bool = False,
+            tags: Optional[List[str]] = None
     ) -> Optional[Publication]:
         try:
             async with async_session() as session:
@@ -49,13 +50,13 @@ class PublicationRepository(PublicationRepositoryPort):
                 is_archived=is_archived
             )
 
-            # if tags:
-            #     for tag_name in tags:
-            #         result = await self._session.execute(
-            #             select(TagModel).filter_by(name=tag_name))
-            #         tag = result.scalars().first()
-            #         if tag:
-            #             pub.tags.append(tag)
+            if tags:
+                for tag_name in tags:
+                    result = await self._session.execute(
+                        select(TagModel).filter_by(name=tag_name))
+                    tag = result.scalars().first()
+                    if tag:
+                        pub.tags.append(tag)
 
             self._session.add(pub)
             await self._session.commit()
@@ -150,7 +151,8 @@ class PublicationRepository(PublicationRepositoryPort):
             event_date=pub.event_date,
             is_archived=pub.is_archived,
             created_at=pub.created_at,
-            location=pub.location
+            location=pub.location,
+            tags=pub.tags
         )
 
     # def _to_domain(self, pub: PublicationModel) -> Publication:
