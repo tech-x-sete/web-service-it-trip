@@ -7,6 +7,14 @@ import uuid
 from datetime import datetime
 from flask_cors import CORS
 
+from aiogram import Bot, Dispatcher
+# from app.database.models import async_main
+from handlers import router
+from dotenv import load_dotenv
+import os
+import logging
+import asyncio
+
 app = Flask(__name__)
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -14,6 +22,9 @@ app.config['JSON_AS_ASCII'] = False
 
 db = SQLAlchemy(app)
 CORS(app)
+
+bot = Bot(token=os.getenv('TOKEN'))
+dp = Dispatcher()
 
 
 def populate_test_data(app, db):
@@ -436,4 +447,6 @@ if __name__ == '__main__':
         echo=True
     )
     app.run(debug=True)
+
+
 
