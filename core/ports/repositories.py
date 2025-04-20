@@ -80,8 +80,7 @@ class PublicationRepositoryPort(ABC):
             publish_date: datetime,
             featured_image_url: Optional[str] = None,
             event_date: Optional[datetime] = None,
-            is_archived: bool = False,
-            tags: Optional[List[str]] = None
+            is_archived: bool = False
     ) -> Optional[Publication]: ...
 
     @abstractmethod
