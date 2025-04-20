@@ -9,6 +9,7 @@
     --secondary-bg-color: #EFEFEF;
     --light-text-color: #777;
     --border-radius: 5px;
+    --h1-size: 1.5rem;
 }
 
 body {
@@ -28,12 +29,9 @@ body {
 .header {
     display: flex;
     justify-content: space-between;
+    flex-direction: row;
     align-items: center;
     padding: 10px 0;
-}
-
-.header h1 {
-    margin: 0;
 }
 
 .icon-btn {
@@ -43,6 +41,12 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
+}
+
+h1 {
+    font-size: var(--h1-size);
+    font-weight: bold;
+    padding-top: 12px;
 }
 
 .organization-list {
@@ -71,13 +75,8 @@ body {
     font-weight: bold;
 }
 
-.delete-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
+button {
+    margin-left: auto;
 }
 
 .footer {

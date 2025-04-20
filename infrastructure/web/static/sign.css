@@ -78,18 +78,3 @@ body {
 .input-group input:focus {
     outline: none;
 }
-
-button {
-    background-color: var(--accent-color);
-    color: var(--bg-color);
-    padding: 15px;
-    border: none;
-    border-radius: var(--border-radius);
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-button:hover {
-    background-color: var(--accent-color-hover);
-}

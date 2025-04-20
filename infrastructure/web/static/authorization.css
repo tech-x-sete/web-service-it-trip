@@ -40,20 +40,3 @@ body {
     color: #333;
     margin-bottom: 20px;
 }
-
-.login-button {
-    background-color: var(--primary-color);
-    color: #fff;
-    padding: 15px;
-    border: none;
-    border-radius: var(--button-border-radius);
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.login-button:hover {
-    background-color: var(--primary-color-hover);
-}

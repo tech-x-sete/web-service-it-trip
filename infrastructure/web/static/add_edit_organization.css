@@ -104,6 +104,7 @@ h1 {
 
 input[type="text"],
 textarea {
+    font-family: var(--font-family);
     width: 100%;
     padding: 12px;
     border-radius: var(--border-radius);
@@ -121,29 +122,13 @@ textarea {
 }
 
 button {
-    display: block;
-    width: fit-content;
-    min-width: var(--button-min-width);
     margin-left: auto;
-    padding: var(--button-padding);
-    border: none;
-    border-radius: var(--border-radius);
-    background: var(--button-bg);
-    color: var(--button-color);
-    font-size: var(--button-font-size);
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-button:hover {
-    background: var(--button-bg-hover);
 }
 
 footer {
     text-align: center;
     color: var(--secondary-color);
     margin-top: auto;
-    padding: 40px 0 12px 0;
+    padding: 32px 0 12px 0;
     font-size: var(--footer-size);
 }
