@@ -13,10 +13,11 @@ class Publication:
     writer_id: Optional[int] = None
     organization: Optional['Organization'] = None  # Мейби тут что-то
     publish_date: datetime = datetime.now()
-    event_date: Optional[datetime] = None
+    event_date: str = ""
     is_archived: bool = False
     created_at: datetime = datetime.now()
     location: str = ""
+    tags: List['Tag'] = None
 
     def __str__(self):
         return f"{self.title}\n{self.content}"

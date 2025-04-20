@@ -78,7 +78,6 @@ class Organization(Base):
     description = Column(Text)
     logo_url = Column(String(255))
     created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
     writers = relationship("User", secondary=organization_writers, back_populates="organizations")
     publications = relationship("Publication", back_populates="organization")
@@ -91,7 +90,6 @@ class Organization(Base):
             description=self.description,
             logo_url=self.logo_url,
             created_at=self.created_at,
-            updated_at=self.updated_at,
             writers=self.writers,
             publications=self.publications
         )
@@ -106,7 +104,6 @@ class User(Base):
     password_hash = Column(String(255), nullable=False)
     role = Column(Enum(RoleEnum), nullable=False)
     created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
     organizations = relationship("Organization",
                                  secondary=organization_writers,
@@ -122,7 +119,6 @@ class User(Base):
             password_hash=self.password_hash,
             role=self.role,
             created_at=self.created_at,
-            updated_at=self.udated_at,
             organizations=self.organizations,
             publications=self.publications
         )
@@ -157,10 +153,9 @@ class Publication(Base):
     writer_id = Column(Integer, ForeignKey('users.id'))
     organization_id = Column(Integer, ForeignKey('organizations.id'))
     publish_date = Column(DateTime, nullable=False)
-    event_date = Column(DateTime)
+    event_date = Column(Text)
     is_archived = Column(Boolean, default=False)
     created_at = Column(DateTime, default=func.now())
-    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
     location = Column(Text)
 
     writer = relationship("User", back_populates="publications")

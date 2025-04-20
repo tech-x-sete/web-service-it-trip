@@ -30,7 +30,7 @@ class PublicationRepository(PublicationRepositoryPort):
             organization_id: int,  # Возможно здесь что-то
             publish_date: datetime,
             featured_image_url: Optional[str] = None,
-            event_date: Optional[datetime] = None,
+            event_date: str = "",
             is_archived: bool = False,
             tags: Optional[List[str]] = None
     ) -> Optional[Publication]:
@@ -151,7 +151,6 @@ class PublicationRepository(PublicationRepositoryPort):
             event_date=pub.event_date,
             is_archived=pub.is_archived,
             created_at=pub.created_at,
-            updated_at=pub.updated_at,
             location=pub.location,
             tags=pub.tags
         )

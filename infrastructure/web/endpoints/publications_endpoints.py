@@ -12,7 +12,7 @@ async def get_publications():
         repo = PublicationRepository(session)
         data = await repo.get_all_publications()
         if data:
-            return [elem.to_dict() for elem in data]
+            return data
         # render_template('templates/', data=data)
         return []
 
