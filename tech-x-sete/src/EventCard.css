@@ -1,0 +1,63 @@
+:root {
+  --primary-text-color: #111;
+  --background-color: #fff;
+  --border-color: #ccc;
+  }
+
+.event 
+{
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 8px 0 8px 0;
+  gap: 10px
+}
+
+.event-img
+{
+  width: 120px;
+  height: 120px; 
+  object-fit: cover;
+  border-radius: 12px; 
+  gap: 10px
+}
+
+.event-info 
+{
+  display: flex;
+  flex-direction: column;
+  margin: 0px 0px 0px 10px;
+}
+
+.event-info h3 
+{
+  margin: 0 0 4px 0;
+}
+
+.event-details
+{
+  gap: 2px;
+}
+
+.event-organization 
+{
+  margin-bottom: 6px;
+}
+
+.event-tags
+{
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag 
+{
+  background: none;
+  border-radius: 1rem;
+  padding: 0.25rem 0.625rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--border-color);
+  color: var(--primary-text-color);
+  display: inline-block;
+}
