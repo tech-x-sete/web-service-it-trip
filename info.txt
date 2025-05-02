@@ -1,0 +1,4 @@
+Для создания бд:
+Изменить в db.py DATABASE_URL
+# Формат подключения: postgresql://user:password@localhost:5432/dbname
+
